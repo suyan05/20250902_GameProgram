@@ -15,7 +15,7 @@ public class CinemacineSwitcher : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(1)) // Right mouse button
+        if (Input.GetMouseButtonDown(1)) // Right mouse button
         {
             usingFreeLook = !usingFreeLook;
             if (usingFreeLook)
