@@ -1,55 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
     public float Speed = 5f;
-    public float JP = 4.5f;
-    public float Gv = 9.8f;
-    public float RS = 4.0f;
+    public float JumpPower = 4.5f;
+    public float Gravity = 9.8f;
 
-    private float h, v;
-    private Vector3 moveDir;
-    private CharacterController CC;
+    private CharacterController controller;
     private float verticalVelocity = 0f;
 
-    private void Start()
+    public Transform cameraTransform;
+
+    void Start()
     {
-        CC = GetComponent<CharacterController>();
+        controller = GetComponent<CharacterController>();
+        Cursor.lockState = CursorLockMode.Locked; // 마우스 커서 고정
     }
 
-    private void Update()
+    void Update()
     {
-        h = Input.GetAxis("Horizontal");
-        v = Input.GetAxis("Vertical");
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
 
         Vector3 inputDir = new Vector3(h, 0, v);
-        inputDir = transform.TransformDirection(inputDir);
+        inputDir = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0) * inputDir; // 카메라 방향 기준 이동
 
-        if (CC.isGrounded)
+        if (controller.isGrounded)
         {
             verticalVelocity = -1f;
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                verticalVelocity = JP;
+                verticalVelocity = JumpPower;
             }
         }
         else
         {
-            verticalVelocity -= Gv * Time.deltaTime; // 중력 적용
+            verticalVelocity -= Gravity * Time.deltaTime;
         }
 
-        moveDir = inputDir * Speed;
+        Vector3 moveDir = inputDir.normalized * Speed;
         moveDir.y = verticalVelocity;
 
-        CC.Move(moveDir * Time.deltaTime);
+        controller.Move(moveDir * Time.deltaTime);
 
-        // 회전 처리
+        // 플레이어가 카메라 방향으로 회전
         if (inputDir.magnitude > 0.1f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(inputDir);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * RS);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
         }
     }
 }
