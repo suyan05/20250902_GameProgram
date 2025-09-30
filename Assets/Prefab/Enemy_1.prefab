@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7619112296666798356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1857380430496949908}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1857380430496949908
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7619112296666798356}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.049000025, y: 0.71150005, z: 0.209}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2432176640035108776}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2759135068461387843
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -85,7 +116,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4d2eb2e7d8e5ff64bb50a51bd8d8984e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1857380430496949908}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4d2eb2e7d8e5ff64bb50a51bd8d8984e,
         type: 3}
@@ -100,6 +135,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1259657587124864158}
   m_SourcePrefab: {fileID: 100100000, guid: 4d2eb2e7d8e5ff64bb50a51bd8d8984e, type: 3}
+--- !u!4 &2432176640035108776 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4d2eb2e7d8e5ff64bb50a51bd8d8984e,
+    type: 3}
+  m_PrefabInstance: {fileID: 2759135068461387843}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3065547716818627858 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4d2eb2e7d8e5ff64bb50a51bd8d8984e,
@@ -158,7 +199,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.7, z: 0}
+  m_Center: {x: 0, y: 0.7, z: -0.1}
 --- !u!114 &1259657587124864158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,5 +212,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966bf72a8263dd5468016b44e654893e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   speed: 3
-  health: 5
+  traceRange: 15
+  attackRange: 6
+  attackCooldown: 1.5
+  projectilePrefab:
+  - {fileID: 6524998820141332931, guid: da240eff8601cff42a515d9419deed9a, type: 3}
+  firePoint: {fileID: 1857380430496949908}
+  HpSlider: {fileID: 3126464643981593261, guid: 7114dab9bde503146af106440d64b03b,
+    type: 3}
+  lastAttackTime: 0
+  MaxHelth: 10

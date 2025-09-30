@@ -5,7 +5,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemyPrefab;       // 생성할 적 프리팹
     public Transform player;             // 플레이어 위치
     public float spawnRadius = 10f;      // 플레이어 기준 생성 반경
-    public float spawnInterval = 2f;     // 생성 간격 (초)
+    public float spawnInterval = 4.5f;     // 생성 간격 (초)
 
     private void Start()
     {

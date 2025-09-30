@@ -1,10 +1,17 @@
 using UnityEngine;
 
+public enum BulletOwner
+{
+    Player,
+    Enemy
+}
+
 public class Bullet : MonoBehaviour
 {
     public float speed = 20f;
     public float lifetime = 2f;
-    public int Bulletdamage = 1;
+    public float Bulletdamage = 1f;
+    public BulletOwner owner; // 외부에서 설정할 총알의 소유자
 
     private void Start()
     {
@@ -18,14 +25,31 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        switch (owner)
         {
-            Enemy_Base enemy = other.GetComponent<Enemy_Base>();
-            if (enemy != null)
-            {
-                enemy.TakeDamage(Bulletdamage); // 체력 1 감소
-            }
-            Destroy(gameObject); // 총알 제거
+            case BulletOwner.Player:
+                if (other.CompareTag("Enemy"))
+                {
+                    Enemy_Base enemy = other.GetComponent<Enemy_Base>();
+                    if (enemy != null)
+                    {
+                        enemy.TakeDamage(Bulletdamage);
+                    }
+                    Destroy(gameObject);
+                }
+                break;
+
+            case BulletOwner.Enemy:
+                if (other.CompareTag("Player"))
+                {
+                    PlayerController player = other.GetComponent<PlayerController>();
+                    if (player != null)
+                    {
+                        player.InDamage(Bulletdamage);
+                    }
+                    Destroy(gameObject);
+                }
+                break;
         }
     }
 }

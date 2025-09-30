@@ -1,9 +1,13 @@
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    public float MPH = 100f;
+    public float PH;
+
     public float walkSpeed = 5f;
     public float runSpeed = 11f;
     public float jumpPower = 4.5f;
@@ -22,15 +26,27 @@ public class PlayerController : MonoBehaviour
     [Header("카메라 스위처")]
     public CinemacineSwitcher cameraSwitcher;
 
+    [Header("UI")]
+    public Slider HpSlider;
+
     void Start()
     {
         pov = virtualCamera.GetCinemachineComponent<CinemachinePOV>();
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
+
+        PH = MPH;
+        HpSlider.value = 1f;
     }
 
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            pov.m_HorizontalAxis.Value = transform.position.y;
+            pov.m_VerticalAxis.Value = 0;
+        }
+
         // FreeLook 모드일 때 플레이어 입력 무시
         if (cameraSwitcher != null && cameraSwitcher.usingFreeLook)
         {
@@ -91,55 +107,79 @@ public class PlayerController : MonoBehaviour
         pov.m_VerticalAxis.m_MaxSpeed = isRunning ? 300f : 150f;
         pov.m_HorizontalAxis.m_MaxSpeed = isRunning ? 300f : 150f;
     }
+
+    public void InDamage(float damage)
+    {
+        PH = PH - damage;
+        HpSlider.value = (float)PH / MPH;
+        Debug.Log("Player 현제 체력: " + PH);
+
+        if (PH <= 0)
+        {
+            Daeth();
+        }
+    }
+
+    public void Daeth()
+    {
+        Debug.Log("Player 사망");
+        controller.enabled = false;
+
+        // GameManager를 통해 씬 재시작
+        GameManager.Instance.RestartScene(3f);
+
+        // 플레이어 오브젝트 제거는 선택적
+        Destroy(gameObject); // 또는 비활성화만 할 수도 있음
+    }
 }
 
 
-    //내가 만든 코드
-    /*public float Speed = 5f;
-    public float JumpPower = 4.5f;
-    public float Gravity = 9.8f;
+//내가 만든 코드
+/*public float Speed = 5f;
+public float JumpPower = 4.5f;
+public float Gravity = 9.8f;
 
-    private CharacterController controller;
-    private float verticalVelocity = 0f;
+private CharacterController controller;
+private float verticalVelocity = 0f;
 
-    public Transform cameraTransform;
+public Transform cameraTransform;
 
-    void Start()
+void Start()
+{
+    controller = GetComponent<CharacterController>();
+    Cursor.lockState = CursorLockMode.Locked; // 마우스 커서 고정
+}
+
+void Update()
+{
+    float h = Input.GetAxis("Horizontal");
+    float v = Input.GetAxis("Vertical");
+
+    Vector3 inputDir = new Vector3(h, 0, v);
+    inputDir = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0) * inputDir; // 카메라 방향 기준 이동
+
+    if (controller.isGrounded)
     {
-        controller = GetComponent<CharacterController>();
-        Cursor.lockState = CursorLockMode.Locked; // 마우스 커서 고정
+        verticalVelocity = -1f;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            verticalVelocity = JumpPower;
+        }
+    }
+    else
+    {
+        verticalVelocity -= Gravity * Time.deltaTime;
     }
 
-    void Update()
+    Vector3 moveDir = inputDir.normalized * Speed;
+    moveDir.y = verticalVelocity;
+
+    controller.Move(moveDir * Time.deltaTime);
+
+    // 플레이어가 카메라 방향으로 회전
+    if (inputDir.magnitude > 0.1f)
     {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-
-        Vector3 inputDir = new Vector3(h, 0, v);
-        inputDir = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0) * inputDir; // 카메라 방향 기준 이동
-
-        if (controller.isGrounded)
-        {
-            verticalVelocity = -1f;
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                verticalVelocity = JumpPower;
-            }
-        }
-        else
-        {
-            verticalVelocity -= Gravity * Time.deltaTime;
-        }
-
-        Vector3 moveDir = inputDir.normalized * Speed;
-        moveDir.y = verticalVelocity;
-
-        controller.Move(moveDir * Time.deltaTime);
-
-        // 플레이어가 카메라 방향으로 회전
-        if (inputDir.magnitude > 0.1f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(inputDir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
-        }
-    }*/
+        Quaternion targetRotation = Quaternion.LookRotation(inputDir);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+    }
+}*/
