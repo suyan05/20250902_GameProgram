@@ -8,6 +8,8 @@ public class CameraController : MonoBehaviour
     public float pitchMin = -30f;
     public float pitchMax = 60f;
 
+    public float TopView = 1.5f;
+
     private float yaw = 0f;
     private float pitch = 10f;
 
@@ -21,6 +23,6 @@ public class CameraController : MonoBehaviour
         Vector3 desiredPosition = target.position + rotation * offset;
 
         transform.position = desiredPosition;
-        transform.LookAt(target.position + Vector3.up * 1.5f); // 플레이어 머리 높이 바라보기
+        transform.LookAt(target.position + Vector3.up * TopView); // 플레이어 머리 높이 바라보기
     }
 }

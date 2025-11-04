@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     private CinemachinePOV pov;
 
     [Header("카메라 스위처")]
-    public CinemacineSwitcher cameraSwitcher;
+    //public CinemacineSwitcher cameraSwitcher;
 
     [Header("UI")]
     public Slider HpSlider;
@@ -48,12 +48,12 @@ public class PlayerController : MonoBehaviour
         }
 
         // FreeLook 모드일 때 플레이어 입력 무시
-        if (cameraSwitcher != null && cameraSwitcher.usingFreeLook)
+        /*if (cameraSwitcher != null && cameraSwitcher.usingFreeLook)
         {
             velocity.y -= gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
             return;
-        }
+        }*/
 
         isGrounded = controller.isGrounded;
         if (isGrounded && velocity.y < 0)
