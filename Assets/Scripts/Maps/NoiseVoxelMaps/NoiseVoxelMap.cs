@@ -1,12 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NoiseVoxelMap : MonoBehaviour
 {
     public GameObject[] blockPrefabs;
     // 0: Dirt, 1: Grass, 2: Water, 3: Stone, 4: Ore
-
-    public GameObject playerPrefab;
-    public GameObject enemyPrefab;
 
     public int width = 20;
     public int maxHeight = 16;
@@ -40,10 +38,10 @@ public class NoiseVoxelMap : MonoBehaviour
                 int h = Mathf.FloorToInt(noise * maxHeight);
                 heightMap[x, z] = h;
 
-                Place(blockPrefabs[1], x, h, z); // Grass
+                Place(1, x, h, z); // Grass
 
                 for (int y = h - 1; y >= Mathf.Max(h - 5, 0); y--)
-                    Place(blockPrefabs[0], x, y, z); // Dirt
+                    Place(0, x, y, z); // Dirt
 
                 for (int y = h - 6; y >= 0; y--)
                 {
@@ -54,49 +52,54 @@ public class NoiseVoxelMap : MonoBehaviour
 
                     if (caveNoise > 0.5f) continue;
 
-                    GameObject prefab = Random.value < oreProbability ? blockPrefabs[4] : blockPrefabs[3];
-                    Place(prefab, x, y, z); // Ore or Stone
+                    int index = Random.value < oreProbability ? 4 : 3;
+                    Place(index, x, y, z); // Ore or Stone
                 }
 
-                // 물 생성 조건
                 for (int y = h + 1; y <= waterLevelMax; y++)
                 {
                     if (y >= waterLevelMin && y <= waterLevelMax)
-                        Place(blockPrefabs[2], x, y, z); // Water
+                        Place(2, x, y, z); // Water
                 }
             }
         }
-
-        //SpawnPlayer();
-        //SpawnEnemies();
     }
 
-    private void Place(GameObject prefab, int x, int y, int z)
+    private void Place(int index, int x, int y, int z)
     {
+        if (index < 0 || index >= blockPrefabs.Length) return;
+
+        GameObject prefab = blockPrefabs[index];
         var go = Instantiate(prefab, new Vector3(x, y, z), Quaternion.identity, transform);
         go.name = $"{prefab.name}_{x}_{y}_{z}";
-    }
 
-    private void SpawnPlayer()
+        var b = go.GetComponent<Blocks>() ?? go.AddComponent<Blocks>();
+        b.type = (BlockType)index;
+        b.maxHP = GetHPByType(b.type);
+        b.mineable = b.type != BlockType.Water;
+
+        b.drops = new List<DropItem>
     {
-        int midX = width / 2;
-        int midZ = depth / 2;
-        int h = heightMap[midX, midZ];
+        new DropItem { type = b.type, count = 1, dropChance = 1f }
+    };
 
-        Vector3 spawnPos = new Vector3(midX, h + 1, midZ);
-        Instantiate(playerPrefab, spawnPos, Quaternion.identity);
-    }
-
-    private void SpawnEnemies()
-    {
-        for (int x = 2; x < width; x += 5)
+        // 예: 돌에서 Dirt 2개를 50% 확률로 추가 드롭
+        if (b.type == BlockType.Stone)
         {
-            for (int z = 2; z < depth; z += 5)
-            {
-                int h = heightMap[x, z];
-                Vector3 pos = new Vector3(x, h + 1, z);
-                Instantiate(enemyPrefab, pos, Quaternion.identity);
-            }
+            b.drops.Add(new DropItem { type = BlockType.Dirt, count = 2, dropChance = 0.5f });
         }
+    }
+
+    private int GetHPByType(BlockType type)
+    {
+        return type switch
+        {
+            BlockType.Dirt => 3,
+            BlockType.Grass => 2,
+            BlockType.Stone => 5,
+            BlockType.Ore => 6,
+            BlockType.Water => 1,
+            _ => 3
+        };
     }
 }

@@ -1,33 +1,43 @@
 using UnityEngine;
 using Cinemachine;
 
-public class CinemacineSwitcher : MonoBehaviour
+public class CinemachineSwitcher : MonoBehaviour
 {
-    public CinemachineVirtualCamera virtualCam;
+    public CinemachineVirtualCamera thirdPersonCam;
     public CinemachineFreeLook freeLookCam;
-    public bool usingFreeLook = false;
+    public CinemachineVirtualCamera firstPersonCam;
+
+    public enum CameraMode { ThirdPerson, FreeLook, FirstPerson }
+    public CameraMode currentMode = CameraMode.ThirdPerson;
 
     private void Start()
     {
-        virtualCam.Priority = 10;
-        freeLookCam.Priority = 0;
+        SetCameraPriority(CameraMode.ThirdPerson);
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1)) // Right mouse button
+        if (Input.GetKeyDown(KeyCode.F2))
         {
-            usingFreeLook = !usingFreeLook;
-            if (usingFreeLook)
-            {
-                virtualCam.Priority = 0;
-                freeLookCam.Priority = 20;
-            }
-            else
-            {
-                virtualCam.Priority = 20;
-                freeLookCam.Priority = 0;
-            }
+            currentMode = CameraMode.ThirdPerson;
+            SetCameraPriority(currentMode);
         }
+        else if (Input.GetKeyDown(KeyCode.F3))
+        {
+            currentMode = CameraMode.FreeLook;
+            SetCameraPriority(currentMode);
+        }
+        else if (Input.GetKeyDown(KeyCode.F4))
+        {
+            currentMode = CameraMode.FirstPerson;
+            SetCameraPriority(currentMode);
+        }
+    }
+
+    private void SetCameraPriority(CameraMode mode)
+    {
+        thirdPersonCam.Priority = (mode == CameraMode.ThirdPerson) ? 20 : 0;
+        freeLookCam.Priority = (mode == CameraMode.FreeLook) ? 20 : 0;
+        firstPersonCam.Priority = (mode == CameraMode.FirstPerson) ? 20 : 0;
     }
 }

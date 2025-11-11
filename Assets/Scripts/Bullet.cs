@@ -45,7 +45,7 @@ public class Bullet : MonoBehaviour
                     PlayerController player = other.GetComponent<PlayerController>();
                     if (player != null)
                     {
-                        player.InDamage(Bulletdamage);
+                        player.TakeDamage(Bulletdamage);
                     }
                     Destroy(gameObject);
                 }

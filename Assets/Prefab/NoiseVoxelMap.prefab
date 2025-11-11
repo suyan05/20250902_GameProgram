@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6283423634999213289
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1933278535629466599}
+  - component: {fileID: 2219529527654576604}
+  m_Layer: 0
+  m_Name: NoiseVoxelMap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1933278535629466599
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6283423634999213289}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2219529527654576604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6283423634999213289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c133276c23c154a80fae2c421fbb5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockPrefabs:
+  - {fileID: 5265543582765715824, guid: ef2c85b1b1e162846b1bff598731e675, type: 3}
+  - {fileID: 5858298250157004120, guid: 7e57c5ffb27645b439e80bda089ef35c, type: 3}
+  - {fileID: 542757262604835107, guid: 4e50235fea10c21408d06033e37d2033, type: 3}
+  - {fileID: 3776404399645622874, guid: fd92d0d1af756d7489a20f860d4becf5, type: 3}
+  - {fileID: 7956991534589626616, guid: 81545ab436ce64348bcf9d8030afd847, type: 3}
+  width: 30
+  maxHeight: 30
+  depth: 30
+  noiseScale: 10
+  waterLevelMin: 5
+  waterLevelMax: 10
+  caveNoiseScale: 15
+  oreProbability: 0.1
