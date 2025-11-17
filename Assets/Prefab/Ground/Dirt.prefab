@@ -48,8 +48,9 @@ MonoBehaviour:
   type: 0
   maxHP: 3
   hp: 0
-  dropCount: 1
   mineable: 1
+  drops: []
+  breakEffect: {fileID: 0}
 --- !u!1001 &7576064580918367171
 PrefabInstance:
   m_ObjectHideFlags: 0

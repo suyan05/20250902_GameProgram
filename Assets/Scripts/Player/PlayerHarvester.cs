@@ -6,14 +6,13 @@ public class PlayerHarvester : MonoBehaviour
     public LayerMask hitMask = ~0;
     public int toolDamage = 1;
     public float hitCooldown = 0.15f;
+
     private float _nextHitTimer;
     private Camera _cam;
-    public Inventory inventory;
 
     private void Awake()
     {
         _cam = Camera.main;
-        if (inventory == null) inventory = gameObject.AddComponent<Inventory>();
     }
 
     private void Update()
@@ -26,9 +25,9 @@ public class PlayerHarvester : MonoBehaviour
             if (Physics.Raycast(ray, out var hit, rayDistnace, hitMask))
             {
                 var block = hit.collider.GetComponent<Blocks>();
-                if(block != null)
+                if (block != null)
                 {
-                    block.Hit(toolDamage, inventory);
+                    block.Hit(toolDamage);
                 }
             }
         }
