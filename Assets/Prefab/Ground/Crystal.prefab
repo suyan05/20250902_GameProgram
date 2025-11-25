@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1876663037515898598}
   - component: {fileID: 5697190702770257651}
+  - component: {fileID: -7336628172326331769}
   m_Layer: 6
   m_Name: Crystal
   m_TagString: Untagged
@@ -49,8 +50,32 @@ MonoBehaviour:
   maxHP: 3
   hp: 0
   mineable: 1
-  drops: []
+  drops:
+  - type: 4
+    count: 5
+    dropChance: 0.5
   breakEffect: {fileID: 0}
+--- !u!65 &-7336628172326331769
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7956991534589626616}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1001 &1783201161821383697
 PrefabInstance:
   m_ObjectHideFlags: 0

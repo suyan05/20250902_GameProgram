@@ -8,6 +8,7 @@ public enum BlockType
     Water = 2,
     Stone = 3,
     Ore = 4,
+
     Empty = 99 // 인벤토리용으로 따로 분리
 }
 [System.Serializable]

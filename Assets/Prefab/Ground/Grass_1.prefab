@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 759327083392471405}
   - component: {fileID: 8204744423899179725}
+  - component: {fileID: 4709844415708816057}
   m_Layer: 6
   m_Name: Grass_1
   m_TagString: Untagged
@@ -51,6 +52,27 @@ MonoBehaviour:
   mineable: 1
   drops: []
   breakEffect: {fileID: 0}
+--- !u!65 &4709844415708816057
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5858298250157004120}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1001 &6408287870893513245
 PrefabInstance:
   m_ObjectHideFlags: 0

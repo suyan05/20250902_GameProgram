@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class NoiseVoxelMap : MonoBehaviour
 {
+    public static NoiseVoxelMap Instance;
+
     public GameObject[] blockPrefabs;
     // 0: Dirt, 1: Grass, 2: Water, 3: Stone, 4: Ore
 
@@ -17,6 +19,11 @@ public class NoiseVoxelMap : MonoBehaviour
     [SerializeField] float oreProbability = 0.1f;
 
     private int[,] heightMap;
+
+    private void Awake()
+    {
+        Instance = this;   //싱글톤 초기화
+    }
 
     private void Start()
     {
@@ -65,7 +72,7 @@ public class NoiseVoxelMap : MonoBehaviour
         }
     }
 
-    private void Place(int index, int x, int y, int z)
+    public void Place(int index, int x, int y, int z)
     {
         if (index < 0 || index >= blockPrefabs.Length) return;
 
@@ -79,11 +86,10 @@ public class NoiseVoxelMap : MonoBehaviour
         b.mineable = b.type != BlockType.Water;
 
         b.drops = new List<DropItem>
-    {
-        new DropItem { type = b.type, count = 1, dropChance = 1f }
-    };
+        {
+            new DropItem { type = b.type, count = 1, dropChance = 1f }
+        };
 
-        // 예: 돌에서 Dirt 2개를 50% 확률로 추가 드롭
         if (b.type == BlockType.Stone)
         {
             b.drops.Add(new DropItem { type = BlockType.Dirt, count = 2, dropChance = 0.5f });
