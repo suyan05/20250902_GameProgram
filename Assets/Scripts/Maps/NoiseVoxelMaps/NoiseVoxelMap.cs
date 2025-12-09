@@ -81,30 +81,30 @@ public class NoiseVoxelMap : MonoBehaviour
         go.name = $"{prefab.name}_{x}_{y}_{z}";
 
         var b = go.GetComponent<Blocks>() ?? go.AddComponent<Blocks>();
-        b.type = (BlockType)index;
+        b.type = (ItemType)index;
         b.maxHP = GetHPByType(b.type);
-        b.mineable = b.type != BlockType.Water;
+        b.mineable = b.type != ItemType.Water;
 
         b.drops = new List<DropItem>
         {
             new DropItem { type = b.type, count = 1, dropChance = 1f }
         };
 
-        if (b.type == BlockType.Stone)
+        if (b.type == ItemType.Stone)
         {
-            b.drops.Add(new DropItem { type = BlockType.Dirt, count = 2, dropChance = 0.5f });
+            b.drops.Add(new DropItem { type = ItemType.Dirt, count = 2, dropChance = 0.5f });
         }
     }
 
-    private int GetHPByType(BlockType type)
+    private int GetHPByType(ItemType type)
     {
         return type switch
         {
-            BlockType.Dirt => 3,
-            BlockType.Grass => 2,
-            BlockType.Stone => 5,
-            BlockType.Ore => 6,
-            BlockType.Water => 1,
+            ItemType.Dirt => 3,
+            ItemType.Grass => 2,
+            ItemType.Stone => 5,
+            ItemType.Ore => 6,
+            ItemType.Water => 1,
             _ => 3
         };
     }

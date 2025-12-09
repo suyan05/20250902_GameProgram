@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
+
+    public Dictionary<ItemType, int> items = new();
 
     public InventorySlot[] hotbarSlots;
     public InventorySlot[] inventorySlots;
@@ -80,18 +83,18 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public Sprite GetIcon(BlockType type)
+    public Sprite GetIcon(ItemType type)
     {
         return blockIcons[(int)type];
     }
 
-    public void Add(BlockType type, int count)
+    public void Add(ItemType type, int count)
     {
         if (TryAddToSlots(hotbarSlots, type, count)) return;
         TryAddToSlots(inventorySlots, type, count);
     }
 
-    private bool TryAddToSlots(InventorySlot[] slots, BlockType type, int count)
+    private bool TryAddToSlots(InventorySlot[] slots, ItemType type, int count)
     {
         foreach (var slot in slots)
         {
@@ -106,7 +109,7 @@ public class InventoryManager : MonoBehaviour
 
         foreach (var slot in slots)
         {
-            if (!slot.gameObject.activeSelf || slot.type == BlockType.Empty)
+            if (!slot.gameObject.activeSelf || slot.type == ItemType.Empty)
             {
                 slot.SetItem(type, count);
                 return true;

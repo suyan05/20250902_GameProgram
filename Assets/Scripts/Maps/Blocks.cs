@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public enum BlockType
+public enum ItemType
 {
     Dirt = 0,
     Grass = 1,
@@ -14,7 +14,7 @@ public enum BlockType
 [System.Serializable]
 public struct DropItem
 {
-    public BlockType type;
+    public ItemType type;
     public int count;
     [Range(0f, 1f)] public float dropChance;
 }
@@ -22,7 +22,7 @@ public struct DropItem
 public class Blocks : MonoBehaviour
 {
     [Header("Block Stat")]
-    public BlockType type = BlockType.Dirt;
+    public ItemType type = ItemType.Dirt;
     public int maxHP = 3;
     [HideInInspector] public int hp;
     public bool mineable = true;

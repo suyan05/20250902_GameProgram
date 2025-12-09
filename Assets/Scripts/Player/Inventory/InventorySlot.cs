@@ -6,10 +6,10 @@ public class InventorySlot : MonoBehaviour
     public Image icon;
     public Text countText;
 
-    public BlockType type = BlockType.Empty;
+    public ItemType type = ItemType.Empty;
     public int count = 0;
 
-    public void SetItem(BlockType newType, int newCount)
+    public void SetItem(ItemType newType, int newCount)
     {
         type = newType;
         count = newCount;
@@ -25,7 +25,7 @@ public class InventorySlot : MonoBehaviour
 
     public void Clear()
     {
-        type = BlockType.Empty;
+        type = ItemType.Empty;
         count = 0;
 
         icon.sprite = null;

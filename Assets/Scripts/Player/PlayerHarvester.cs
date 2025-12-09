@@ -16,7 +16,7 @@ public class PlayerHarvester : MonoBehaviour
         buildMode = active;
     }
 
-    private GameObject previewObject; //설치 위치 프리뷰 오브젝트
+    private GameObject previewObject;
 
     private void Awake()
     {
@@ -29,10 +29,9 @@ public class PlayerHarvester : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             buildMode = !buildMode;
-
             if (!buildMode && previewObject != null)
             {
-                Destroy(previewObject); // 설치 모드 해제 시 프리뷰 제거
+                Destroy(previewObject);
             }
         }
 
@@ -59,7 +58,16 @@ public class PlayerHarvester : MonoBehaviour
                     var block = hit.collider.GetComponent<Blocks>();
                     if (block != null)
                     {
-                        block.Hit(toolDamage);
+                        int finalDamage = toolDamage;
+
+                        // 현재 선택된 핫바 슬롯 확인
+                        var slot = InventoryManager.Instance.hotbarSlots[InventoryManager.Instance.selectedHotbarIndex];
+                        if (slot != null && slot.type != ItemType.Empty)
+                        {
+                            finalDamage += DamageModifier.Instance.GetExtraDamage(slot.type);
+                        }
+
+                        block.Hit(finalDamage);
                     }
                 }
             }
@@ -69,7 +77,7 @@ public class PlayerHarvester : MonoBehaviour
     private void ShowPreview()
     {
         var slot = InventoryManager.Instance.hotbarSlots[InventoryManager.Instance.selectedHotbarIndex];
-        if (slot == null || slot.type == BlockType.Empty || slot.count <= 0) return;
+        if (slot == null || slot.type == ItemType.Empty || slot.count <= 0) return;
 
         Ray ray = _cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         if (Physics.Raycast(ray, out var hit, rayDistance, hitMask))
@@ -77,12 +85,10 @@ public class PlayerHarvester : MonoBehaviour
             Vector3 placePos = hit.point + hit.normal * 0.5f;
             placePos = new Vector3(Mathf.Round(placePos.x), Mathf.Round(placePos.y), Mathf.Round(placePos.z));
 
-            // 프리뷰 오브젝트가 없으면 생성
             if (previewObject == null)
             {
                 GameObject prefab = NoiseVoxelMap.Instance.blockPrefabs[(int)slot.type];
                 previewObject = Instantiate(prefab, placePos, Quaternion.identity);
-                // 반투명 처리
                 SetTransparent(previewObject, 0.1f);
             }
             else
@@ -95,7 +101,7 @@ public class PlayerHarvester : MonoBehaviour
     private void PlaceBlock(RaycastHit hit)
     {
         var slot = InventoryManager.Instance.hotbarSlots[InventoryManager.Instance.selectedHotbarIndex];
-        if (slot == null || slot.type == BlockType.Empty || slot.count <= 0) return;
+        if (slot == null || slot.type == ItemType.Empty || slot.count <= 0) return;
 
         Vector3 placePos = hit.point + hit.normal * 0.5f;
         placePos = new Vector3(Mathf.Round(placePos.x), Mathf.Round(placePos.y), Mathf.Round(placePos.z));
