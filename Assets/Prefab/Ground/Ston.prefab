@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 3
-  maxHP: 3
+  maxHP: 20
   hp: 0
   mineable: 1
   drops: []

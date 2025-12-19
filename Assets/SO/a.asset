@@ -19,5 +19,5 @@ MonoBehaviour:
   - ItemType: 1
     count: 1
   OutPut:
-  - ItemType: 4
+  - ItemType: 5
     count: 1

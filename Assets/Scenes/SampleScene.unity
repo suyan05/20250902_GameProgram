@@ -978,6 +978,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d1776f30037cfc64f8c7928d9b046a70, type: 3}
   - {fileID: 21300000, guid: 598aa6e1bb5c4e94797a4066b5ee6dd8, type: 3}
   - {fileID: 21300000, guid: cf1cc7469dc1237408dd6fb2824149af, type: 3}
+  - {fileID: 21300000, guid: 448a7f1b11b000148b3cddbddd723b1a, type: 3}
   blockPrefabs:
   - {fileID: 0}
   - {fileID: 0}
@@ -4705,6 +4706,8 @@ MonoBehaviour:
   modifiers:
   - itemType: 3
     extraDamage: 3
+  - itemType: 5
+    extraDamage: 10
 --- !u!4 &817557112
 Transform:
   m_ObjectHideFlags: 0
@@ -9779,6 +9782,21 @@ MonoBehaviour:
     m_Bits: 64
   toolDamage: 1
   hitCooldown: 0.15
+--- !u!114 &1758132127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015894355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c0a45a17cd50184d82e39dd25840b06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heightThreshold: 100
+  targetSceneName: Sky
+  onlyOnce: 1
 --- !u!1 &1781759174
 GameObject:
   m_ObjectHideFlags: 0
@@ -11357,6 +11375,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1758132123}
+    - targetCorrespondingSourceObject: {fileID: 1829548174835690780, guid: 4dba380911b299340ba4005950b04339,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1758132127}
   m_SourcePrefab: {fileID: 100100000, guid: 4dba380911b299340ba4005950b04339, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
