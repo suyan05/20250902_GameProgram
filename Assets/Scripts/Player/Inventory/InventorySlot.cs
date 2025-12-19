@@ -13,27 +13,33 @@ public class InventorySlot : MonoBehaviour
     {
         type = newType;
         count = newCount;
-
-        icon.sprite = InventoryManager.Instance.GetIcon(type);
-        icon.enabled = true;
-
-        countText.text = count > 1 ? count.ToString() : "";
-        countText.enabled = count > 1;
-
-        gameObject.SetActive(true);
+        UpdateUI();
     }
 
     public void Clear()
     {
         type = ItemType.Empty;
         count = 0;
+        UpdateUI();
+    }
 
-        icon.sprite = null;
-        icon.enabled = false;
-
-        countText.text = "";
-        countText.enabled = false;
-
-        gameObject.SetActive(false);
+    private void UpdateUI()
+    {
+        if (type == ItemType.Empty || count <= 0)
+        {
+            icon.sprite = null;
+            icon.enabled = false;
+            countText.text = "";
+            countText.enabled = false;
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            icon.sprite = InventoryManager.Instance.GetIcon(type);
+            icon.enabled = true;
+            countText.text = count > 1 ? count.ToString() : "";
+            countText.enabled = count > 1;
+            gameObject.SetActive(true);
+        }
     }
 }

@@ -5,14 +5,14 @@ using System.Collections;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    private bool isRestarting = false;
 
     private void Awake()
     {
-        // ΩÃ±€≈Ê ∆–≈œ
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // æ¿ ¿¸»Ø Ω√ ¿Ø¡ˆ
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -22,12 +22,22 @@ public class GameManager : MonoBehaviour
 
     public void RestartScene(float delay)
     {
-        StartCoroutine(RestartSceneCoroutine(delay));
+        if (!isRestarting)
+        {
+            isRestarting = true;
+            StartCoroutine(RestartSceneCoroutine(delay));
+        }
     }
 
     private IEnumerator RestartSceneCoroutine(float delay)
     {
         yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        isRestarting = false;
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 }

@@ -1,10 +1,11 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [System.Serializable]
 public struct ItemDamageModifier
 {
-    public ItemType itemType;   // 어떤 아이템인지
-    public int extraDamage;     // 추가 데미지
+    public ItemType itemType;
+    public int extraDamage;
 }
 
 public class DamageModifier : MonoBehaviour
@@ -12,19 +13,29 @@ public class DamageModifier : MonoBehaviour
     public static DamageModifier Instance;
 
     [Header("ItemType별 추가 데미지 설정")]
-    public ItemDamageModifier[] modifiers; // 인스펙터에서 수정 가능
+    public ItemDamageModifier[] modifiers;
+
+    private Dictionary<ItemType, int> modifierDict;
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            modifierDict = new Dictionary<ItemType, int>();
+            foreach (var m in modifiers)
+                modifierDict[m.itemType] = m.extraDamage;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
+
     public int GetExtraDamage(ItemType type)
     {
-        foreach (var m in modifiers)
-        {
-            if (m.itemType == type)
-                return m.extraDamage;
-        }
-        return 0;
+        return modifierDict.TryGetValue(type, out int dmg) ? dmg : 0;
     }
 }

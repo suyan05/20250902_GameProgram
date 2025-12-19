@@ -118,11 +118,7 @@ public class CraftingPanel : MonoBehaviour
                 count -= removeAmount;
 
                 if (slot.count <= 0) slot.Clear();
-                else
-                {
-                    slot.countText.text = slot.count > 1 ? slot.count.ToString() : "";
-                    slot.countText.enabled = slot.count > 1;
-                }
+                else slot.SetItem(slot.type, slot.count); // UI 갱신 일관성 유지
             }
         }
         return count;
